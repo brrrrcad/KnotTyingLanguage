@@ -70,3 +70,19 @@ class Rope():
         loc1_value = max(locs_filtered, key=lambda l: l._get_location())._get_location() if len(locs_filtered) > 0 else LOC_MIN
         new_loc = Location(self, (loc1_value + loc2_value) / 2)
         return new_loc
+            
+    def print(self, **kwargs):
+        rev_kwargs = {v: k for k, v in kwargs.items()}
+        print("Locations:")
+        for loc in self.locations:
+            name = rev_kwargs.get(loc, "Unnamed")
+            print(f" - {name}: {loc._get_location()}")
+        print("Sections:")
+        for sec in self.sections:  
+            name = rev_kwargs.get(sec, "Unnamed")
+            print(f" - {name}: {sec.loc1._get_location()} to {sec.loc2._get_location()}")
+
+    def equalize(self):
+        n = len(self.locations)
+        for i, loc in enumerate(self.locations):
+            loc.location = LOC_MIN + (LOC_MAX - LOC_MIN) * (i + 1) / (n + 1)
