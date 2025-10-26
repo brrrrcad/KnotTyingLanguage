@@ -1,4 +1,8 @@
+from src import Rope
 
+R = Rope()
+w = R.w
+s = R.s
 
 t, c1, c2 = pturn(w.minus(30))
 p1 = ppass(w.minus(10), t)
