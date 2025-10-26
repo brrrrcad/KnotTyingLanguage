@@ -56,6 +56,8 @@ class Rope():
         assert loc != self.s
         if loc in self.locations:
             return
+        if self.loc_placeholder in self.locations:
+            self.locations.remove(self.loc_placeholder)
         self.locations.append(loc)
         self.locations.sort(key=lambda l: l._get_location())
 
