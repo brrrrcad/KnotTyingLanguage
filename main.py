@@ -1,4 +1,4 @@
-from src import Rope, pturn
+from src import Rope, pturn, ppass, npass
 
 R = Rope()
 w = R.w
