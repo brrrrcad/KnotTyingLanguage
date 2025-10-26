@@ -65,10 +65,27 @@ class Rope():
     ### USER METHODS ###
 
     def before(self, location):
+        if isinstance(location, Section):
+            location = location.loc1
         loc2_value = location._get_location()
-        locs_filtered = list(filter(lambda l: l._get_location() < loc2_value, self.locations))
+        locs_filtered = [loc for loc in self.locations if loc._get_location() < loc2_value]
         loc1_value = max(locs_filtered, key=lambda l: l._get_location())._get_location() if len(locs_filtered) > 0 else LOC_MIN
         new_loc = Location(self, (loc1_value + loc2_value) / 2)
+        return new_loc
+    
+    def somewhere(self):
+        return self.loc_placeholder
+    
+    def between(self, loc1:Location, loc2:Location):
+        if isinstance(loc1, Section):
+            loc1 = loc1.loc2
+        if isinstance(loc2, Section):
+            loc2 = loc2.loc1
+        assert loc1 in self.locations
+        assert loc2 in self.locations
+        assert loc1._get_location() < loc2._get_location()
+        assert len([loc for loc in self.locations if loc1._get_location() < loc._get_location() < loc2._get_location()]) == 0
+        new_loc = Location(self, (loc1._get_location() + loc2._get_location()) / 2)
         return new_loc
             
     def print(self, **kwargs):
@@ -86,3 +103,4 @@ class Rope():
         n = len(self.locations)
         for i, loc in enumerate(self.locations):
             loc.location = LOC_MIN + (LOC_MAX - LOC_MIN) * (i + 1) / (n + 1)
+
