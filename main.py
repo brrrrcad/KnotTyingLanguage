@@ -20,7 +20,7 @@ assert locations1 == reference1
 
 R2.equalize()
 # Test locations order
-reference2 = [p1, l.loc1, l.loc2, p3]
+reference2 = [p1, l.start, l.end, p3]
 locations2 = [loc for loc in R2.locations if loc in reference2]
 assert locations2 == reference2
 

@@ -29,10 +29,10 @@ class Location(LocationBase):
         return self.location
     
 class Section:
-    def __init__(self, loc1:Location, loc2:Location):
-        assert loc1.rope == loc2.rope
-        self.loc1 = loc1
-        self.loc2 = loc2
+    def __init__(self, start:Location, end:Location):
+        assert start.rope == end.rope
+        self.start = start
+        self.end = end
 
         
     
@@ -68,7 +68,7 @@ class Rope():
 
     def before(self, location):
         if isinstance(location, Section):
-            location = location.loc1
+            location = location.start
         loc2_value = location._get_location()
         locs_filtered = [loc for loc in self.locations if loc._get_location() < loc2_value]
         loc1_value = max(locs_filtered, key=lambda l: l._get_location())._get_location() if len(locs_filtered) > 0 else LOC_MIN
@@ -80,9 +80,9 @@ class Rope():
     
     def between(self, loc1:Location, loc2:Location):
         if isinstance(loc1, Section):
-            loc1 = loc1.loc2
+            loc1 = loc1.end
         if isinstance(loc2, Section):
-            loc2 = loc2.loc1
+            loc2 = loc2.start
         assert loc1 in self.locations
         assert loc2 in self.locations
         assert loc1._get_location() < loc2._get_location()
@@ -99,7 +99,7 @@ class Rope():
         print("Sections:")
         for sec in self.sections:  
             name = rev_kwargs.get(sec, "Unnamed")
-            print(f" - {name}: {sec.loc1._get_location()} to {sec.loc2._get_location()}")
+            print(f" - {name}: {sec.start._get_location()} to {sec.end._get_location()}")
 
     def equalize(self):
         n = len(self.locations)

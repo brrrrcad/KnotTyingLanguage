@@ -11,7 +11,7 @@ def test_outer_bowline_01():
     p3 = npass(R.w, t)
 
     R.equalize()
-    assert_location_sublist(R, [p2, c1, c2, p1, l.loc1, l.loc2, p3])
+    assert_location_sublist(R, [p2, c1, c2, p1, l.start, l.end, p3])
 
 def test_sheet_bend_01():
     R1 = Rope()
@@ -23,4 +23,4 @@ def test_sheet_bend_01():
     p3 = ppass(R2.w, t)
 
     assert_location_sublist(R1, [p2, c1, c2])
-    assert_location_sublist(R2, [p1, l.loc1, l.loc2, p3])
+    assert_location_sublist(R2, [p1, l.start, l.end, p3])

@@ -9,7 +9,7 @@ def test_half_hitch_01():
     l2, p2 = ploop(R.w, R.s)
     c2, c1 = pcross(R.w, R.between(l1, l2))
 
-    assert_location_sublist(R, [p2, l1.loc1, l1.loc2, c1, l2.loc1, l2.loc2, c2])
+    assert_location_sublist(R, [p2, l1.start, l1.end, c1, l2.start, l2.end, c2])
 
 def test_clove_hitch_01():
     R = Rope()
@@ -30,7 +30,7 @@ def test_clove_hitch_02():
     l2, p2 = ploop(R.w, OBJ.before(p1))
     p3 = ppass(R.w, l1)
 
-    assert_location_sublist(R, [c1, l1.loc1, l1.loc2, c2, l2.loc1, l2.loc2, p3])
+    assert_location_sublist(R, [c1, l1.start, l1.end, c2, l2.start, l2.end, p3])
     assert_location_sublist(OBJ, [p2, p1])
 
 def test_figure_8_01():
@@ -51,8 +51,8 @@ def test_reef_01():
     l3, p3 = nloop(R1.w, R2.w)
     p4 = npass(R1.w, l1)
 
-    assert_location_sublist(R1, [p1, l2.loc1, l2.loc2, l3.loc1, l3.loc2, p4])
-    assert_location_sublist(R2, [p2, l1.loc1, l1.loc2, p3])
+    assert_location_sublist(R1, [p1, l2.start, l2.end, l3.start, l3.end, p4])
+    assert_location_sublist(R2, [p2, l1.start, l1.end, p3])
 
 def test_sheet_bend_01():
     R1 = Rope()
@@ -64,8 +64,8 @@ def test_sheet_bend_01():
     c2, c1 = ncross(R1.w, R1.between(p1, l2))
     c3, c4 = pcross(R1.w, R2.between(l1, p2))
 
-    assert_location_sublist(R1, [p1, c1, l2.loc1, l2.loc2, l3.loc1, l3.loc2, c2, c3])
-    assert_location_sublist(R2, [p3, l1.loc1, l1.loc2, c4, p2])
+    assert_location_sublist(R1, [p1, c1, l2.start, l2.end, l3.start, l3.end, c2, c3])
+    assert_location_sublist(R2, [p3, l1.start, l1.end, c4, p2])
 
 def test_evil_sheet_bend_01():
     R1 = Rope()
@@ -77,8 +77,8 @@ def test_evil_sheet_bend_01():
     c2, c1 = pcross(R1.w, R1.between(p1, l2))
     c3, c4 = pcross(R1.w, R2.between(p2, l1))
 
-    assert_location_sublist(R1, [p1, c1, l2.loc1, l2.loc2, l3.loc1, l3.loc2, c2, c3])
-    assert_location_sublist(R2, [p2, c4, l1.loc1, l1.loc2, p3 ])
+    assert_location_sublist(R1, [p1, c1, l2.start, l2.end, l3.start, l3.end, c2, c3])
+    assert_location_sublist(R2, [p2, c4, l1.start, l1.end, p3])
 
 
 
