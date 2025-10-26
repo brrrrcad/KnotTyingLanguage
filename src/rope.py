@@ -13,11 +13,11 @@ class LocationBase():
     
 
 class WorkingEnd(LocationBase):
-    def _get_location(self):
+    def _get_location(self) -> float:
         return (self.rope._get_largest_location() + LOC_MAX) / 2
     
 class StandingEnd(LocationBase):
-    def _get_location(self):
+    def _get_location(self) -> float:
         return (self.rope._get_smallest_location() + LOC_MIN) / 2
 
 class Location(LocationBase):
@@ -25,7 +25,7 @@ class Location(LocationBase):
         super().__init__(rope)
         self.location = location
 
-    def _get_location(self):
+    def _get_location(self) -> float:
         return self.location
     
 class Section:
@@ -52,6 +52,10 @@ class Rope():
         return min([loc._get_location() for loc in self.locations])
     
     def _add_location(self, loc:Location):
+        assert loc != self.w
+        assert loc != self.s
+        if loc in self.locations:
+            return
         self.locations.append(loc)
         self.locations.sort(key=lambda l: l._get_location())
 
@@ -62,6 +66,7 @@ class Rope():
 
     def before(self, location):
         loc2_value = location._get_location()
-        loc1_value = max(filter(lambda l: l._get_location() < loc2_value, self.locations))._get_location()
+        locs_filtered = list(filter(lambda l: l._get_location() < loc2_value, self.locations))
+        loc1_value = max(locs_filtered, key=lambda l: l._get_location())._get_location() if len(locs_filtered) > 0 else LOC_MIN
         new_loc = Location(self, (loc1_value + loc2_value) / 2)
         return new_loc
