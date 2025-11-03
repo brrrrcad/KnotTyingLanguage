@@ -18,5 +18,5 @@ def resample_rope(df, resolution):
     x = np.interp(u, df['CumulativeLength'], df['x'])
     y = np.interp(u, df['CumulativeLength'], df['y'])
     z = np.interp(u, df['CumulativeLength'], df['z'])
-    result_df = pd.DataFrame({'u': u, 'x': x, 'y': y, 'z': z})
+    result_df = pd.DataFrame({'u': u, 'x': x, 'y': y, 'z': z, 'CumulativeLength': u})
     return result_df
