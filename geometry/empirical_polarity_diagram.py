@@ -49,7 +49,7 @@ def get_polarity_matrices(rope):
             c_polarity_matrix[i,j] = np.dot(np.cross(delta_1, delta_2), difference_vector)
             t_polarity_matrix[i,j] = np.dot(np.cross(delta_1, difference_vector), np.cross(delta_2, difference_vector))
             
-
+    print("")
     return c_polarity_matrix, t_polarity_matrix
 
 def draw_epd(rope, diameter, epsilon=0.1):

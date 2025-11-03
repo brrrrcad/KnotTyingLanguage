@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 
-def read_rope_file(filepath):
+def read_rope_raw(filepath):
     
     df = pd.read_csv(filepath)
     df['dx'] = df['x'].diff().fillna(0)
@@ -20,3 +20,8 @@ def resample_rope(df, resolution):
     z = np.interp(u, df['CumulativeLength'], df['z'])
     result_df = pd.DataFrame({'u': u, 'x': x, 'y': y, 'z': z, 'CumulativeLength': u})
     return result_df
+
+def read_rope(filepath, resolution):
+    df_raw = read_rope_raw(filepath)
+    df = resample_rope(df_raw, resolution)
+    return df

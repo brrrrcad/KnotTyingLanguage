@@ -2,7 +2,7 @@ from geometry import *
 import numpy as np
 
 def test_contact_diagram_01():
-    r_raw = read_rope_file("data/bowline_outer.csv")
+    r_raw = read_rope_raw("data/bowline_outer.csv")
     assert len(r_raw) > 0
     r = resample_rope(r_raw, 300)
     assert len(r) == 300
@@ -11,9 +11,15 @@ def test_contact_diagram_01():
     assert (distances > 0).sum() > 0
     assert (distances <= 0).sum() > 0
 
+def test_contact_diagram_02():
+    r = read_rope("data/bowline_outer.csv", 300)
+    distances = get_distance_matrix(r, diameter=1, epsilon=0.1)
+    interacts = get_interactions(distances)
+    print(len(interacts))
+    assert len(interacts) == 6
+
 def test_polarity_diartgam_01():
-    r_raw = read_rope_file("data/bowline_outer.csv")
-    r = resample_rope(r_raw, 300)
+    r = read_rope("data/bowline_outer.csv", 300)
     c_matrix, t_matrix = get_polarity_matrices(r)
     assert c_matrix.shape == (300, 300)
     assert t_matrix.shape == (300, 300)

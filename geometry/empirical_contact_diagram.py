@@ -17,6 +17,7 @@ def get_distance_matrix(rope, diameter, epsilon=0.1):
             dy = rope1['y'].iloc[i] - rope2['y'].iloc[j]
             dz = rope1['z'].iloc[i] - rope2['z'].iloc[j]
             distances[i,j] = (dx*dx + dy*dy + dz*dz)**0.5 - (diameter1 + diameter2)*(1+epsilon)/2
+    print("")
     return distances
 
 
