@@ -54,13 +54,20 @@ def get_polarity_matrices(rope):
 
 def draw_epd(rope, diameter, epsilon=0.1):
     distance_matrix = get_distance_matrix(rope, diameter, epsilon)
+    rope1, rope2 = split_param(rope)
+    diameter1, diameter2 = split_param(diameter)
+    length1 = rope1['CumulativeLength'].iloc[-1]
+    length2 = rope1['CumulativeLength'].iloc[-1]
     A, B = get_polarity_matrices(rope)
     L = np.ones_like(distance_matrix)
     L[distance_matrix > 0] = 0.5/(distance_matrix[distance_matrix > 0]+1)
     lab_image = np.stack([L*100, A*127, B*127], axis=-1)
     rgb_image = color.lab2rgb(lab_image)
-    plt.imshow(rgb_image)
-    plt.axis("off")
+    extent=[0, length2/diameter2, length1/diameter1, 0]
+    plt.imshow(rgb_image, extent=extent)
+    plt.xlabel('Point 2 [Diams]')
+    plt.ylabel('Point 1 [Diams]')
+    plt.title('Empirical Polarity Diagram')
     plt.show()
 
 
