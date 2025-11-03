@@ -9,16 +9,15 @@ DIAMETER = 1
 EPSILON = 0.1
 
 
-df = read_rope_file("data/bowline_outer.csv")
+rope = read_rope("data/bowline_outer.csv", RESOLUTION)
 
-result_df = resample_rope(df, RESOLUTION)
 
 #draw_ecd(result_df, diameter=DIAMETER, epsilon=EPSILON)
 
 #draw_epd(result_df, diameter=DIAMETER, epsilon=EPSILON)
 
-distances = get_distance_matrix(result_df, diameter=DIAMETER, epsilon=EPSILON)
-interacts = get_interactions(distances)
-print(len(interacts))
+distances = get_distance_matrix(rope, diameter=DIAMETER, epsilon=EPSILON)
+c_polarity, t_polarity = get_polarity_matrices(rope)
+analyze_interactions(distances, c_polarity, t_polarity)
 
 

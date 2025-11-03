@@ -12,6 +12,14 @@ def get_interactions(distances):
             continue  # Skip diagonal line
         if interaction_indices[0][0] > interaction_indices[0][1]:
             continue  # Skip interactions below the diagonal
-        print(f"Interaction length:{len(interaction_indices)}")
         interactions.append(interaction_indices)
     return interactions
+
+def analyze_interactions(distances, c_polarity, t_polarity):
+    interacts = get_interactions(distances)
+    for interact in interacts:
+        c = np.mean(c_polarity[interact],where=np.isfinite(c_polarity[interact]))
+        t = np.mean(t_polarity[interact],where=np.isfinite(t_polarity[interact]))
+        polarity = np.sign(c) if np.abs(c)>np.abs(t) else np.sign(t)
+        kind = "cross" if np.abs(c)>np.abs(t) else "trace" 
+        print(f"Feature size:{len(interact)}, c:{c}, t:{t}, polarity:{polarity}, kind:{kind}")
