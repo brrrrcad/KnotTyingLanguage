@@ -18,6 +18,7 @@ rope = read_rope("data/bowline_outer.csv", RESOLUTION)
 
 distances = get_distance_matrix(rope, diameter=DIAMETER, epsilon=EPSILON)
 c_polarity, t_polarity = get_polarity_matrices(rope)
-analyze_interactions(distances, c_polarity, t_polarity)
+df_rows = analyze_interactions(rope, distances, c_polarity, t_polarity)
+print(df_rows)
 
 
