@@ -1,29 +1,38 @@
-from ktl import *
+from geometry import *
 
-R1 = Rope()
-R2 = Rope()
-w1 = R1.w
-s1 = R1.s
-w2 = R2.w
-s2 = R2.s
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
 
-t, c1, c2 = nturn(w1)
-p1 = npass(w2, t)
-l, p2 = ploop(w2, s1)
-p3 = ppass(w2, t)
+RESOLUTION = 300
+DIAMETER = 1
+EPSILON = 0.1
 
-R1.equalize()
-# Test locations order
-reference1 = [p2, c1, c2]
-locations1 = [loc for loc in R1.locations if loc in reference1]
-assert locations1 == reference1
 
-R2.equalize()
-# Test locations order
-reference2 = [p1, l.start, l.end, p3]
-locations2 = [loc for loc in R2.locations if loc in reference2]
-assert locations2 == reference2
+df = read_rope_file("data/bowline_outer.csv")
 
-# Test stability of print
-R1.print(t=t, c1=c1, c2=c2, p2=p2)
-R2.print(p1=p1, l=l, p3=p3)
+result_df = resample_rope(df, RESOLUTION)
+
+distances = get_distance_matrix(result_df, diameter=DIAMETER, epsilon=EPSILON)
+
+#max_distances = np.nanmax(distances)
+# Mask negative distances
+clipped_distances = distances.copy()
+clipped_distances[clipped_distances <= 0] = np.nan
+
+
+# Plot Diagram
+length = df['CumulativeLength'].iloc[-1]
+extent=[0, length/DIAMETER, length/DIAMETER, 0]
+plt.imshow(clipped_distances, cmap='viridis_r', interpolation='nearest', origin='upper', extent=extent)
+plt.xlabel('Point 2 [Diams]')
+plt.ylabel('Point 1 [Diams]')
+plt.colorbar().set_label('Distance [Diams]')
+#levels = range(0, int(np.floor(max_distances)))
+#plt.contour(distances, levels=[0,1,2,3,4,5], colors='black', origin='upper', extent=extent)
+#plt.contour(distances, levels=[0], colors='red', origin='upper', extent=extent)
+plt.title('Empirical Contact Diagram')
+plt.gca().set_facecolor('black')
+
+plt.show()
+
